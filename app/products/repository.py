@@ -7,7 +7,7 @@ from app.db.tables import Product, Contribution, Purchase, PurchaseEmissions
 
 def product_list_repository(db_session: DBSession, mat_id: Optional[str] = None, plant_id: Optional[str] = None) -> list[ProductModel]:
 
-    # Select columns labeled to match the response model field names
+
     query = db_session.query(
         Product.product_id.label("productId"),
         Product.product_name.label("productName"),
@@ -23,7 +23,7 @@ def product_list_repository(db_session: DBSession, mat_id: Optional[str] = None,
 
     rows = query.all()
 
-    # Return plain dicts so FastAPI/Pydantic can validate against ProductModel
+
     return [
         {
             "productId": row.productId,
@@ -59,7 +59,7 @@ def product_contributors_repository(db_session: DBSession, product_id: str) -> l
 
     rows = query.all()
 
-    # Return list of dicts with numeric casts and nullable emissions
+
     return [
         {
             "purchaseId": row.purchaseId,
@@ -83,7 +83,7 @@ def product_details_repository(db_session: DBSession, product_id: str) -> list[P
 
     total_qty_kg = func.coalesce(func.sum(qty_kg), 0.0)
 
-    # Weighted average: sum(emission * weight) / sum(weight over rows with emission)
+    # sum(emission * weight) / sum(weight over rows with emission)
     weighted_sum = func.coalesce(func.sum(
         case(
             (PurchaseEmissions.emissions_value.isnot(None),
@@ -119,7 +119,6 @@ def product_details_repository(db_session: DBSession, product_id: str) -> list[P
     )
 
     if row is None:
-        # Product doesnt exist
         return None
 
     # return singleton

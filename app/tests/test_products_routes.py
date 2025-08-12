@@ -155,10 +155,6 @@ def test_get_product_list_with_invalid_material(client, db):
     items = res.json()
     assert len(items) == 0
 
-#def test_get_product_list_with_bad_params(client, db):
-#    res = client.get(f"/api/products?mat_id={True}&plant_id=-1000&bad_param=1")
-#    assert res.status_code == 400
-
 """
 HARDCODED THE FOLLOWING:
 [

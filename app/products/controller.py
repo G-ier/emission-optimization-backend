@@ -19,7 +19,7 @@ def _normalize_query_param(value: Optional[str]) -> Optional[str]:
 
 @products_router.get("")
 def get_product_list(db_session: DBSession, mat_id: Optional[str] = None, plant_id: Optional[str] = None) -> list[ProductModel]:
-    # Normalize empty/whitespace-only strings to None so filters are applied only when provided
+
     mat_id = _normalize_query_param(mat_id)
     plant_id = _normalize_query_param(plant_id)
 
