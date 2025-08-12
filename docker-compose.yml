@@ -1,0 +1,33 @@
+services:
+  # Postgres database
+  database:
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PGDATA: /var/lib/postgresql/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - .docker_volumes/postgres:/var/lib/postgresql
+      - ./database_init:/docker-entrypoint-initdb.d
+
+  # Backend service
+  backend:
+    build: .
+    platform: linux/amd64
+    depends_on:
+      - database
+    env_file:
+      - .env
+    environment:
+      DATABASE_HOST: database
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    command: ["run", "--reload"]

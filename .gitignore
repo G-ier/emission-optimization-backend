@@ -1,0 +1,19 @@
+# PyCharm project files
+.idea/
+
+# Virtual environment
+.venv/
+
+# Dotenv file
+.env
+
+# Docker volumes
+.docker_volumes
+
+# pytest_cache
+.pytest_cache/
+
+# test/conftest.py
+#app/tests/conftest.py
+
+# fundemental files to induce unimplementation
